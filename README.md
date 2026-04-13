@@ -70,32 +70,33 @@ It provides a simple and efficient platform for managing:
 ## 📂 Project Structure
 
 
-
 LMS-Using-JSP/
 │
 ├── src/
-│   ├── controller/
-│   ├── dao/
-│   ├── model/
+│ ├── controller/ # Servlets (Request Handling Layer)
+│ ├── dao/ # Database Access Layer
+│ ├── model/ # POJO Classes (Data Models)
 │
 ├── web/
-│   ├── jsp pages/
-│   ├── css/
-│   ├── js/
+│ ├── jsp-pages/ # JSP Frontend Pages
+│ ├── css/ # Stylesheets
+│ ├── js/ # JavaScript Files
+│ ├── images/ # UI Images & Assets
 │
 ├── DB/
-│   └── mysql scripts/
+│ └── mysql-scripts/ # SQL Database Files
 │
-└── README.md
-
-
----
+├── lib/ # External JAR Dependencies
+│
+├── README.md # Project Documentation
+│
+└── build/ (optional) # Compiled Output Files
 
 ## ⚙️ Setup Instructions
 
 ### 1. Clone the repository
 
-git clone https://github.com/your-username/LMS-Using-JSP.git
+git clone https://github.com/chaki43/LMS-Using-JSP.git
 
 
 ### 2. Import project into Eclipse / IntelliJ
