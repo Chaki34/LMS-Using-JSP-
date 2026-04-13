@@ -1,4 +1,8 @@
 
+
+---
+
+
 # 🎓 LMS-Using-JSP
 
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
@@ -6,7 +10,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-00758F?style=for-the-badge&logo=mysql&logoColor=white)
 ![Tomcat](https://img.shields.io/badge/Apache_Tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black)
 
-
+---
 
 ## 🚀 Project Overview
 
@@ -14,11 +18,12 @@
 ☕ Java, 🌐 JSP, 🔧 Servlets, and 🗄️ MySQL.
 
 It provides a simple and efficient platform for managing:
-- 👨‍🎓 Students
-- 👨‍🏫 Teachers
-- 📚 Courses
-- 📝 Assignments
-- 📊 Results
+
+- 👨‍🎓 Students  
+- 👨‍🏫 Teachers  
+- 📚 Courses  
+- 📝 Assignments  
+- 📊 Results  
 
 ---
 
@@ -48,6 +53,7 @@ It provides a simple and efficient platform for managing:
 ### 🎓 Student Dashboard
 ![Dashboard](https://via.placeholder.com/900x400?text=Student+Dashboard)
 
+---
 
 ## 🛠️ Tech Stack
 
@@ -64,6 +70,7 @@ It provides a simple and efficient platform for managing:
 ## 📂 Project Structure
 
 
+
 LMS-Using-JSP/
 │
 ├── src/
@@ -72,12 +79,12 @@ LMS-Using-JSP/
 │   ├── model/
 │
 ├── web/
-│   ├── jsp pages
+│   ├── jsp pages/
 │   ├── css/
 │   ├── js/
 │
 ├── DB/
-│   └── mysql scripts
+│   └── mysql scripts/
 │
 └── README.md
 
@@ -86,27 +93,28 @@ LMS-Using-JSP/
 
 ## ⚙️ Setup Instructions
 
-1. Clone the repository
-bash
+### 1. Clone the repository
+
 git clone https://github.com/your-username/LMS-Using-JSP.git
 
-2. Import project into Eclipse / IntelliJ
 
-3. Configure **Apache Tomcat**
+### 2. Import project into Eclipse / IntelliJ
 
-4. Import MySQL database
+### 3. Configure Apache Tomcat
+
+### 4. Import MySQL database
 
 
 CREATE DATABASE lms_db;
 
 
-5. Update DB credentials in:
+### 5. Update DB credentials in
 
 
+DBConnection.java
 
 
-
-6. Run project on server 🚀
+### 6. Run the project on server 🚀
 
 ---
 
@@ -125,17 +133,21 @@ CREATE DATABASE lms_db;
 Pull requests are welcome!
 For major changes, please open an issue first.
 
-
+---
 
 ## 📜 License
 
 This project is open-source and free to use.
 
-
+---
 
 ## 💡 Author
 
-👨‍💻 Developed by DEBMALYA CHAKI 
+👨‍💻 Developed by **DEBMALYA CHAKI**
 📧 Email: [debmalyachaki5@gmail.com](mailto:debmalyachaki5@gmail.com)
+
+
+
+---
 
 
