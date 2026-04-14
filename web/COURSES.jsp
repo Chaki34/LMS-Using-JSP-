@@ -1,117 +1,106 @@
-<%-- 
-    Document   : COURSES
-    Created on : 13-Feb-2026, 11:41:06?am
-    Author     : Administrator
---%>
-
-
+<%@ page import="java.sql.*,java.util.*" %>
 
 <section class="courses-section">
-        <div class="section-header">
-            <h2>Popular Courses</h2>
-            <p>Explore our most enrolled courses this month</p>
-        </div>
-        
-    
-    
-    
+    <div class="section-header">
+        <h2>Popular Courses</h2>
+        <p>Explore our most enrolled courses this month</p>
+    </div>
 
-    
-    
-    
-        <div class="courses-container">
-            <!-- Course 1 -->
-           
-            <%
-                try
-    {
-      // create our mysql database connection
-      String myDriver = "com.mysql.cj.jdbc.Driver";
-      String myUrl = "jdbc:mysql://localhost:3306/lms?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";;
-      Class.forName(myDriver);
-      String dbPassword = System.getenv("DB_PASSWORD");
-      Connection conn = DriverManager.getConnection(myUrl, "root", dbPassword);
-      
-      // our SQL SELECT query. 
-      // if you only need a few columns, specify them by name instead of using "*"
-      String query = "SELECT * FROM COURSES";
+    <div class="courses-container">
 
-      // create the java statement
-      Statement st = conn.createStatement();
-      
-      // execute the query, and get a java resultset
-      ResultSet rs = st.executeQuery(query);
-      
-      // iterate through the java resultset
-      while (rs.next())
-      {
+<%
+Connection conn = null;
+Statement st = null;
+ResultSet rs = null;
+
+try {
+    // Load Driver
+    String myDriver = "com.mysql.cj.jdbc.Driver";
+    String myUrl = "jdbc:mysql://localhost:3306/lms?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    Class.forName(myDriver);
+
+    // ✅ Get password from ENV
+    String dbPassword = System.getenv("DB_PASSWORD");
+
+    // ❗ Check if ENV is missing
+    if (dbPassword == null || dbPassword.trim().isEmpty()) {
+        throw new Exception("DB_PASSWORD environment variable is NOT set!");
+    }
+
+    // Connect
+    conn = DriverManager.getConnection(myUrl, "root", dbPassword);
+
+    // Query
+    String query = "SELECT * FROM courses ORDER BY id DESC LIMIT 3";
+    st = conn.createStatement();
+    rs = st.executeQuery(query);
+
+    Random r = new Random();
+
+    while (rs.next()) {
+
         int id = rs.getInt("id");
         String courseName = rs.getString("course_name");
         String courseDes = rs.getString("course_des");
-        int price = rs.getInt("price");
         String category = rs.getString("catagory");
         String courseFile = rs.getString("course_file");
-        String status = rs.getString("status");
-        String tag = rs.getString("tag");
-        String h =courseDes.substring(0, 50);
-         Random r= new Random();
-            int rand = r.nextInt(10000); 
-           int rand2 = r.nextInt(1000);
-        %>
-        
-        
 
-         
-         
-        
-        
+        // ✅ Safe description
+        String shortDes = "";
+        if (courseDes != null) {
+            shortDes = (courseDes.length() > 50) ? courseDes.substring(0, 50) + "..." : courseDes;
+        }
+
+        // ✅ Safe image
+        String img = (courseFile != null && !courseFile.isEmpty()) ? courseFile : "default.png";
+
+        int students = r.nextInt(10000);
+        int reviews = r.nextInt(1000);
+%>
+
         <div class="course-card" data-tilt data-tilt-scale="1.05" data-tilt-glare data-tilt-max-glare="0.2">
-                <div class="course-image">
-                    <img src="http://localhost:8080/LMS/images/<% out.print(courseFile); %>" alt="Web Development">
-                    <div class="course-category"><%= category %></div>
-                </div>
-                <div class="course-content">
-                    <h3 class="course-title"><%= courseName %></h3>
-                    <p class="course-description"> <%= h %></p>
-                    <div class="course-meta">
-                       
-                                   
-                      <span><i class="fas fa-user-graduate"></i><%= rand %> students</span>
-                       <span><i class="fas fa-star"></i> 4.8 (<%= rand2 %> reviews)</span>  
-                    </div>
-                    <a href="course_info.jsp?q=<%= id %>" class="read-more-btn">
-                        Read More <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
+            <div class="course-image">
+               <img src="<%= request.getContextPath() %>/images/<%= img %>" alt="Course Image">
+                <div class="course-category"><%= category %></div>
             </div>
-        
-        
-        
-     <%
-        
-       
-       
-      }
-      
-      
-    }
-    catch (Exception e)
-    {
-      System.err.println("Got an exception! ");
-      System.err.println(e.getMessage());
-    }
-                %>
-            
-            
-            
-               
-            
-            
-            
-           
+
+            <div class="course-content">
+                <h3 class="course-title"><%= courseName %></h3>
+
+                <p class="course-description"><%= shortDes %></p>
+
+                <div class="course-meta">
+                    <span><i class="fas fa-user-graduate"></i> <%= students %> students</span>
+                    <span><i class="fas fa-star"></i> 4.8 (<%= reviews %> reviews)</span>
+                </div>
+
+                <a href="course_info.jsp?q=<%= id %>" class="read-more-btn">
+                    Read More <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
-        
-        <div class="view-all-container">
-            <a href="#" class="view-all-btn">View All Courses <i class="fas fa-arrow-right"></i></a>
-        </div>
-    </section>
+
+<%
+    }
+
+} catch (Exception e) {
+%>
+    <div style="color:red; font-weight:bold;">
+        ERROR: <%= e.getMessage() %>
+    </div>
+<%
+} finally {
+    try { if (rs != null) rs.close(); } catch (Exception e) {}
+    try { if (st != null) st.close(); } catch (Exception e) {}
+    try { if (conn != null) conn.close(); } catch (Exception e) {}
+}
+%>
+
+    </div>
+
+    <div class="view-all-container">
+        <a href="all_courses.jsp" class="view-all-btn">
+            View All Courses <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+</section>
