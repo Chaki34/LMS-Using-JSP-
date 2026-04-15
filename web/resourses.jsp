@@ -173,10 +173,71 @@
             margin-bottom: 20px;
             background: rgba(255,255,255,0.3);
         }
+
         .sidebar-box h4 {
             font-family: 'Playfair Display', serif;
             text-decoration: underline;
             margin-bottom: 10px;
+        }
+
+        /* REVIEWS */
+        .reviews-section {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .review-item {
+            border-bottom: 1px dashed #ccc;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+
+        .review-stars {
+            color: #d4af37;
+            font-size: 14px;
+        }
+
+        .review-item span {
+            font-family: 'Special Elite';
+            font-size: 11px;
+            color: var(--accent-red);
+        }
+
+        /* AI SECTION */
+        .ai-section {
+            position: relative;
+        }
+
+        .ai-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--ink);
+            font-family: 'Special Elite', cursive;
+            margin-bottom: 8px;
+        }
+
+        .ai-btn {
+            width: 100%;
+            padding: 8px;
+            background: var(--ink);
+            color: var(--paper);
+            border: none;
+            font-family: 'Special Elite', cursive;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .ai-btn:hover {
+            background: var(--accent-red);
+        }
+
+        .ai-response {
+            margin-top: 10px;
+            padding: 8px;
+            background: #f9f9f9;
+            border-left: 3px solid var(--accent-red);
+            font-size: 12px;
+            min-height: 40px;
         }
 
         footer {
@@ -185,6 +246,176 @@
             padding: 30px;
             text-align: center;
             font-family: 'Special Elite', cursive;
+        }
+
+        /* =========================
+           MOBILE RESPONSIVE (SMALL SCREENS)
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                font-size: 14px;
+            }
+
+            /* TOP BAR */
+            .top-bar-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+                font-size: 12px;
+            }
+
+            /* HEADER */
+            .news-header {
+                padding: 20px 10px;
+                margin: 0 10px 15px 10px;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+                font-size: 12px;
+            }
+
+            .logo-title {
+                font-size: 32px;
+                letter-spacing: 0;
+            }
+
+            /* MAIN LAYOUT (STACK) */
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 10px;
+            }
+
+            /* SECTION TITLE */
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            /* THREE JS CANVAS */
+            #archive-canvas-container {
+                height: 250px;
+            }
+
+            #book-label {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+
+            /* BOOK GRID */
+            .materials-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            /* BOOK CARD */
+            .book-card {
+                padding: 12px;
+            }
+
+            .book-image {
+                height: 150px;
+            }
+
+            .book-title {
+                font-size: 16px;
+            }
+
+            .action-btn {
+                font-size: 11px;
+                padding: 8px;
+            }
+
+            .status-badge {
+                font-size: 9px;
+                padding: 4px 6px;
+            }
+
+            /* SIDEBAR */
+            aside {
+                order: 2;
+            }
+
+            .sidebar-box {
+                padding: 10px;
+            }
+
+            .sidebar-box h4 {
+                font-size: 16px;
+            }
+
+            .sidebar-box p {
+                font-size: 13px;
+            }
+
+            .sidebar-box input {
+                font-size: 12px;
+            }
+
+
+
+
+            /* FOOTER */
+            footer {
+                padding: 20px 10px;
+                margin: 30px 10px 0 10px;
+                font-size: 12px;
+            }
+
+            /* IMAGE FIX */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        /* MOVE REVIEWS TO MAIN SECTION ON MOBILE */
+        @media (max-width: 600px) {
+
+            .reviews-section {
+                order: -1;
+            }
+
+            aside {
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* OPTIONAL: move reviews above everything */
+            .reviews-section {
+                width: 100%;
+            }
+        }
+        /* AI section moves properly */
+        @media (max-width: 600px) {
+
+            .ai-section {
+                order: 3;
+            }
+
+        }
+
+        /* BETTER BALANCED MOBILE SPACING */
+        @media (max-width: 600px) {
+
+            .main-container {
+                padding: 10px 15px;
+            }
+
+            aside {
+                margin-left: 8px;
+                margin-right: 5px;
+            }
+
+            .sidebar-box {
+                margin-left: 5px;
+                margin-right: 5px;
+            }
         }
     </style>
 </head>
@@ -265,6 +496,45 @@
             <h4>QUICK SEARCH</h4>
             <input type="text" style="width:100%; padding:8px; font-family:'Special Elite';" placeholder="Keyword...">
         </div>
+
+        <div class="sidebar-box reviews-section">
+            <h4>USER REVIEWS</h4>
+
+            <div class="review-item">
+                <div class="review-stars">★★★★★</div>
+                <p>"Amazing collection of study material!"</p>
+                <span>- Rahul</span>
+            </div>
+
+            <div class="review-item">
+                <div class="review-stars">★★★★☆</div>
+                <p>"Very useful for exams."</p>
+                <span>- Anjali</span>
+            </div>
+
+            <!-- Repeat like this up to 10 reviews -->
+
+        </div>
+
+        <div class="sidebar-box ai-section">
+            <h4>AI ASSISTANT</h4>
+
+            <p style="font-size: 13px; margin-bottom: 10px;">
+                "Ask anything about your studies, instantly powered by AI."
+            </p>
+
+            <input type="text" class="ai-input" placeholder="Ask your question...">
+
+            <button class="ai-btn">
+                <i class="fas fa-robot"></i> Ask AI
+            </button>
+
+            <!-- Response Box -->
+            <div class="ai-response">
+                <p><i>AI response will appear here...</i></p>
+            </div>
+        </div>
+
     </aside>
 </div>
 
@@ -398,6 +668,25 @@
     }
 
     init();
+</script>
+
+<script>
+    document.querySelector('.ai-btn').addEventListener('click', function () {
+        const input = document.querySelector('.ai-input').value;
+        const responseBox = document.querySelector('.ai-response');
+
+        if (!input.trim()) {
+            responseBox.innerHTML = "<p>Please enter a question.</p>";
+            return;
+        }
+
+        // Dummy AI response (you can connect backend later)
+        responseBox.innerHTML = "<p><strong>AI:</strong> Searching knowledge archives for \"" + input + "\"...</p>";
+
+        setTimeout(() => {
+            responseBox.innerHTML = "<p><strong>AI:</strong> This topic is related to your study materials. Please explore the archive section above.</p>";
+        }, 1000);
+    });
 </script>
 
 </body>

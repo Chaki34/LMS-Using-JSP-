@@ -200,6 +200,106 @@
             text-align: center;
             background: var(--paper);
         }
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
+
+        /* Tablet */
+        @media (max-width: 992px) {
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+
+            .courses-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .logo-title {
+                font-size: 50px;
+            }
+
+            .hero-title {
+                font-size: 36px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+
+            body {
+                font-size: 14px;
+            }
+
+            .top-bar-content {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .header-meta {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .logo-title {
+                font-size: 32px;
+                letter-spacing: 0;
+            }
+
+            .hero-title {
+                font-size: 26px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .search-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-input,
+            .search-btn {
+                width: 100%;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .courses-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-section {
+                padding: 20px 10px;
+            }
+
+            #three-canvas-container {
+                height: 250px;
+            }
+
+            .course-image img {
+                height: 120px;
+            }
+        }
     </style>
 </head>
 <body class="newspaper-theme">

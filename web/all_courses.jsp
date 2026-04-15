@@ -224,6 +224,112 @@ if(tag == null) tag = "";
         text-align: center;
         font-family: 'Special Elite', cursive;
     }
+    /* =========================
+       RESPONSIVE (SMALL SCREENS ONLY)
+    ========================= */
+
+    @media (max-width: 600px) {
+
+        body {
+            font-size: 14px;
+        }
+
+        /* TOP BAR */
+        .top-bar-content {
+            flex-direction: column;
+            gap: 6px;
+            text-align: center;
+        }
+
+        .typewriter {
+            font-size: 12px;
+        }
+
+        /* HEADER */
+        .news-header {
+            padding: 20px 10px;
+            margin: 0 10px 15px 10px;
+        }
+
+        .header-meta {
+            flex-direction: column;
+            gap: 5px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .logo-title {
+            font-size: 32px;
+            letter-spacing: 0;
+        }
+
+        /* SEARCH */
+        .search-container {
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .search-input,
+        .search-btn {
+            width: 100%;
+        }
+
+        .search-btn {
+            margin-top: 5px;
+        }
+
+        /* TAGS */
+        .tags {
+            gap: 8px;
+            padding: 0 10px;
+        }
+
+        .tags a {
+            font-size: 12px;
+        }
+
+        /* GRID */
+        .courses-container {
+            grid-template-columns: 1fr; /* single column */
+            padding: 15px;
+            gap: 20px;
+        }
+
+        /* CARD */
+        .course-card {
+            padding: 12px;
+        }
+
+        .course-image img {
+            height: 140px;
+        }
+
+        .course-title {
+            font-size: 18px;
+        }
+
+        .course-description {
+            font-size: 13px;
+        }
+
+        .course-meta {
+            flex-direction: column;
+            gap: 5px;
+            text-align: center;
+        }
+
+        .read-more-btn {
+            font-size: 12px;
+            padding: 10px;
+        }
+
+        /* FOOTER */
+        .footer {
+            padding: 20px 10px;
+            margin: 30px 10px 0 10px;
+            font-size: 12px;
+        }
+    }
 </style>
 </head>
 
@@ -279,7 +385,8 @@ try {
         dbPassword
     );
 
-    String sql = "SELECT * FROM courses WHERE 1=1";
+    String sql = "SELECT c.*, cc.rating FROM courses c " +
+                 "LEFT JOIN course_curriculams cc ON c.id = cc.course_id WHERE 1=1";
     if(!search.isEmpty()) { sql += " AND (course_name LIKE ? OR course_des LIKE ?)"; }
     if(!tag.isEmpty()) { sql += " AND catagory = ?"; }
     sql += " ORDER BY id DESC";
@@ -304,6 +411,11 @@ try {
         String category = rs.getString("catagory");
         String courseFile = rs.getString("course_file");
 
+        double rating = rs.getDouble("rating");
+
+        // fallback if null (0.0)
+        String ratingDisplay = (rating > 0) ? rating + "/5" : "N/A";
+
         String shortDes = (courseDes != null && courseDes.length() > 80)
                 ? courseDes.substring(0, 80) + "..."
                 : courseDes;
@@ -325,10 +437,10 @@ try {
             <h3 class="course-title"><%= courseName %></h3>
             <p class="course-description"><%= shortDes %></p>
 
-            <div class="course-meta">
-                <span>ENROLLED: <%= students %></span>
-                <span>RATING: 4.8/5</span>
-            </div>
+             <div class="course-meta">
+                            <span>ENROLLED: <%= students %></span>
+                            <span>RATING: <%= ratingDisplay %></span>
+                        </div>
 
             <a class="read-more-btn" href="course_info.jsp?q=<%= id %>">
                 READ FULL STORY
