@@ -264,6 +264,9 @@
     <a href="#">📚 ARCHIVES</a>
     <a href="#">👥 READERSHIP</a>
     <a href="#">⚙️ EDITORIAL SETTINGS</a>
+    <a href="logout.jsp" onclick="return confirm('Are you sure you want to logout?')">
+        ⚙️ LOG OUT
+    </a>
 </div>
 
 <div class="main-content">

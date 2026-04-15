@@ -230,17 +230,41 @@ if (userId != null) {
 <aside class="dashboard-sidebar">
     <div class="sidebar-header">
         <div class="sidebar-masthead">
-            THE<br>CHRONICLE
-            <small>· student edition ·</small>
+            <h3>Learners</h3>
+            <small>· SLOW BUT STEADY WON THE RACE ! ·</small>
         </div>
 
         <div class="student-badge">
            <div class="student-avatar" onclick="openProfileModal()" style="cursor:pointer;">
-               <img src="images/<%= profileImage %>" style="width:100%;height:100%;border-radius:50%;">
+             <img
+                 src="images/<%= (profileImage == null || profileImage.trim().isEmpty()) ? "default.png" : profileImage %>"
+                 style="
+                     width: 70px;
+                     height: 70px;
+                     border-radius: 51%;
+                     border: 3px solid #1a1a1a;
+                     object-fit: cover;
+                     transition: 0.3s;
+                     cursor: pointer;
+                 "
+                 onmouseover="this.style.transform='scale(1.05)'"
+                 onmouseout="this.style.transform='scale(1)'"
+             >
            </div>
             <div>
                 <h4><%= session.getAttribute("fullname") != null ? session.getAttribute("fullname") : "Guest User" %></h4>
                 <p>
+                  <!-- LOCATION (ADDRESS) -->
+                    <p style="
+                        font-size: 12px;
+                        color: red;
+                        margin-top: 4px;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                    ">
+                         <%= (address == null || address.trim().isEmpty()) ? "No location set" : address %>
+                    </p>
                     <%
                         String role = (String) session.getAttribute("role");
                         if (role == null) {
@@ -257,6 +281,7 @@ if (userId != null) {
         <a class="nav-item" href="#">Dashboard</a>
         <a class="nav-item" href="#">Courses</a>
         <a class="nav-item" href="#">Analytics</a>
+        <a class="nav-item" href="logout.jsp">LOG OUT</a>
     </nav>
 </aside>
 
@@ -286,9 +311,15 @@ if (userId != null) {
 
     <h2 class="section-title">Tools</h2>
     <div class="tools-grid">
-        <div class="tool-item">Library</div>
-        <div class="tool-item">Planner</div>
-        <div class="tool-item">Messages</div>
+        <a href="resources.jsp" style="text-decoration:none; color:inherit;">
+            <div class="tool-item">Library</div>
+        </a>
+        <a href="planner.jsp" style="text-decoration:none; color:inherit;">
+            <div class="tool-item">Planner</div>
+        </a>
+        <a href="messages.jsp" style="text-decoration:none; color:inherit;">
+            <div class="tool-item">Messages</div>
+        </a>
     </div>
 
     <div id="profileModal"
@@ -320,14 +351,16 @@ if (userId != null) {
 
             <!-- PROFILE IMAGE -->
             <div style="text-align:center;margin-bottom:15px;">
-                <img src="images/<%= profileImage %>"
-                style="
-                    width:90px;
-                    height:90px;
-                    border-radius:50%;
-                    border:3px solid #1a1a1a;
-                    object-fit:cover;
-                ">
+                <img
+                    src="images/<%= (profileImage == null || profileImage.trim().isEmpty()) ? "default.png" : profileImage %>"
+                    style="
+                        width:90px;
+                        height:90px;
+                        border-radius:50%;
+                        border:3px solid #1a1a1a;
+                        object-fit:cover;
+                    "
+                >
             </div>
 
             <form method="post" action="saveProfile.jsp" enctype="multipart/form-data">

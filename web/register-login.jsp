@@ -2,6 +2,28 @@
 <%@ page import="java.sql.*, java.security.MessageDigest" %>
 
 <%
+ // Already login user or admin
+    if (session.getAttribute("userId") != null) {
+
+        String role = (String) session.getAttribute("role");
+
+        if ("student".equalsIgnoreCase(role)) {
+            response.sendRedirect("student_dashboard.jsp");
+            return;
+        }
+        else if ("instructor".equalsIgnoreCase(role)) {
+            response.sendRedirect("dashboard.jsp");
+            return;
+        }
+        else {
+            response.sendRedirect("dashboard.jsp");
+            return;
+        }
+    }
+
+%>
+
+<%
     // ==================== CONFIGURATION (UNTOUCHED) ====================
     String dbURL = "jdbc:mysql://localhost:3306/lms?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     String dbUser = "root";

@@ -17,9 +17,27 @@
         </multipart-config>
     </servlet>
 
+    <servlet>
+        <servlet-name>saveProfile</servlet-name>
+        <jsp-file>/saveProfile.jsp</jsp-file>
+
+        <multipart-config>
+            <max-file-size>5242880</max-file-size>
+            <max-request-size>10485760</max-request-size>
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+    </servlet>
+
+
+
     <servlet-mapping>
         <servlet-name>dashboard</servlet-name>
         <url-pattern>/dashboard.jsp</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>saveProfile</servlet-name>
+        <url-pattern>/saveProfile.jsp</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -1,13 +1,58 @@
 <%@ page import="java.sql.*,java.util.*" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
+
+
 <%
 String search = request.getParameter("search");
 String tag = request.getParameter("tag");
 
 if(search == null) search = "";
 if(tag == null) tag = "";
+
+
+// =========================
+// FIX: LOAD TAGS FROM DB
+// =========================
+List<String> tags = new ArrayList<>();
+Set<String> tagSet = new HashSet<>();
+
+try {
+    Class.forName("com.mysql.cj.jdbc.Driver");
+    String dbPassword = System.getenv("DB_PASSWORD");
+
+    Connection con = DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/lms?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+        "root",
+        dbPassword
+    );
+
+    Statement st = con.createStatement();
+    ResultSet rsTags = st.executeQuery("SELECT tag FROM courses");
+
+    while(rsTags.next()) {
+        String t = rsTags.getString("tag");
+
+        if(t != null) {
+            t = t.trim().toLowerCase(); // 🔥 normalize (removes AI vs ai issue)
+
+            if(!t.isEmpty() && !tagSet.contains(t)) {
+                tagSet.add(t);
+                tags.add(t);
+            }
+        }
+    }
+
+    rsTags.close();
+    st.close();
+    con.close();
+
+} catch(Exception e) {
+    out.print("");
+}
 %>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -359,15 +404,27 @@ if(tag == null) tag = "";
         <button type="submit" class="search-btn">SEARCH</button>
     </form>
 
-    <!-- TAGS -->
-    <div class="tags">
-        <a href="all_courses.jsp" class="<%= tag.equals("") ? "active" : "" %>">EDITORIAL (ALL)</a>
-        <a href="all_courses.jsp?tag=coding" class="<%= tag.equals("coding") ? "active" : "" %>">CODING</a>
-        <a href="all_courses.jsp?tag=ai" class="<%= tag.equals("ai") ? "active" : "" %>">AI & TECH</a>
-        <a href="all_courses.jsp?tag=database" class="<%= tag.equals("database") ? "active" : "" %>">DATA SYSTEMS</a>
-        <a href="all_courses.jsp?tag=design" class="<%= tag.equals("design") ? "active" : "" %>">ARTS & DESIGN</a>
-    </div>
+<div class="tags">
+
+    <a href="all_courses.jsp"
+       class="<%= (tag == null || tag.equals("")) ? "active" : "" %>">
+       ALL COURSES
+    </a>
+
+    <%
+    for (String t : tags) {
+    %>
+        <a href="all_courses.jsp?tag=<%= t %>"
+           class="<%= t.equals(tag) ? "active" : "" %>">
+           <%= t.toUpperCase() %>
+        </a>
+    <%
+    }
+    %>
+
 </div>
+
+
 
 <div class="courses-container">
 
@@ -385,21 +442,30 @@ try {
         dbPassword
     );
 
-    String sql = "SELECT c.*, cc.rating FROM courses c " +
-                 "LEFT JOIN course_curriculams cc ON c.id = cc.course_id WHERE 1=1";
-    if(!search.isEmpty()) { sql += " AND (course_name LIKE ? OR course_des LIKE ?)"; }
-    if(!tag.isEmpty()) { sql += " AND catagory = ?"; }
-    sql += " ORDER BY id DESC";
+   String sql = "SELECT c.*, cc.rating FROM courses c " +
+                "LEFT JOIN course_curriculams cc ON c.id = cc.course_id WHERE 1=1";
 
-    ps = conn.prepareStatement(sql);
-    int i = 1;
-    if(!search.isEmpty()) {
-        ps.setString(i++, "%" + search + "%");
-        ps.setString(i++, "%" + search + "%");
-    }
-    if(!tag.isEmpty()) {
-        ps.setString(i++, tag);
-    }
+   if(!search.isEmpty()) {
+       sql += " AND (course_name LIKE ? OR course_des LIKE ?)";
+   }
+
+   if(!tag.isEmpty()) {
+       sql += " AND tag = ?";   // ✅ FIX HERE
+   }
+
+   sql += " ORDER BY id DESC";
+
+   ps = conn.prepareStatement(sql);
+   int i = 1;
+
+   if(!search.isEmpty()) {
+       ps.setString(i++, "%" + search + "%");
+       ps.setString(i++, "%" + search + "%");
+   }
+
+   if(!tag.isEmpty()) {
+       ps.setString(i++, tag);
+   }
 
     rs = ps.executeQuery();
     Random r = new Random();
